@@ -8,7 +8,7 @@ class App extends React.Component {
     super(props);
     this.state={
       articles: [],
-      firstSearch: ''
+      filteredArticles:[]
     }
   }
 
@@ -21,24 +21,42 @@ componentDidMount() {
       this.setState({
         articles: data.hits,
       })
-    );
+      );
+    }
+handleChange = (evt) => {
+  const filteredResults = this.state.articles.filter(article => {
+    if(article.author === evt.target.value || article.date === evt.target.value || article.title === evt.target.value) {
+      return article; 
+    }
+    return filteredResults;
+  })
+}
+    
+    // componentDidUpdate() {
+      //   console.log(this.state.articles);
+      // }
+      
+onSubmit = (evt) => {
+  evt.preventDefault()
+  // fetch(
+  //   "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=25"
+  // )
+  //   .then((response) => response.json())
+  //   .then((data) =>
+  //     this.setState({
+  //       articles: data.hits,
+  //     })
+  //   );
+
+  this.setState({
+    filteredArticles: this.filteredResults,
+  })
 }
 
-componentDidUpdate() {
-  console.log(this.state.articles);
-}
 
-// handleChange = (evt) => {
-//   const filteredResults = this.state.articles.filter(article => {
-//     if(article.author === evt.target.value || article.date === evt.target.value || article.title === evt.target.value) {
-//       return article; 
-//     }
-//   })
-// }
-
-// handleUpdate = (event) =>{
+// handleUpdate = (evt) =>{
 //   this.setState({
-//       firstSearch: event.target.value
+//       searchTerm: evt.target.value
 //   })
 // }
 
@@ -50,14 +68,14 @@ componentDidUpdate() {
     return (
       <div className="App">
         <h1 className="title">Hacker News!</h1>
-        <form>
-          <button>Search</button>
-          <input type='text'name='searchInput' id='searchInput' placeholder='Search by Author/Title/Date'></input>
+        <form onSubmit={this.onSubmit}>
+          <button>Submit</button>
+          <input type='text'name='searchInput' id='searchInput' placeholder='Search by Author/Title/Date' onChange={this.handleChange}></input>
         </form>
         <div>
           <ul>
-            {this.state.articles.map((article, index) => (
-              <Listing article={article} />
+            {this.state.filteredArticles.map((article, index) => (
+              <Listing article={article} key={index} />
             ))}
           </ul>
         </div>
