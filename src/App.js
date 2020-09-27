@@ -8,7 +8,8 @@ class App extends React.Component {
     super(props);
     this.state={
       articles: [],
-      filteredArticles:[]
+      filteredArticles:[],
+      text: '',
     }
   }
 
@@ -23,35 +24,58 @@ componentDidMount() {
       })
       );
     }
-handleChange = (evt) => {
-  const filteredResults = this.state.articles.filter(article => {
-    if(article.author === evt.target.value || article.date === evt.target.value || article.title === evt.target.value) {
-      return article; 
-    }
-    return filteredResults;
-  })
-}
-    
-    // componentDidUpdate() {
-      //   console.log(this.state.articles);
-      // }
-      
-onSubmit = (evt) => {
-  evt.preventDefault()
-  // fetch(
-  //   "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=25"
-  // )
-  //   .then((response) => response.json())
-  //   .then((data) =>
-  //     this.setState({
-  //       articles: data.hits,
-  //     })
-  //   );
 
-  this.setState({
-    filteredArticles: this.filteredResults,
-  })
+componentDidUpdate() {
+  console.log(this.state.filteredArticles);
 }
+
+handleChange = (evt) => {
+this.setState({
+  text: evt.target.value,
+})
+// const filteredResults = this.state.articles.filter(article => {
+//     return article.title.toLowerCase().includes(evt.target.value.toLowerCase())
+// })
+
+// this.setState({
+//   filteredArticles: filteredResults
+// })
+}
+
+handleSubmit = (evt) => {
+  evt.preventDefault()
+//   console.log('Clicked')
+  // const filteredResults = this.state.articles.filter(article => article.title.toLowerCase()===this.state.text.toLowerCase())
+
+// this.setState({
+//   filteredArticles: filteredResults,
+// })
+const filteredResults = this.state.articles.filter(article => {
+  return article.title.toLowerCase().includes(this.state.text.toLowerCase())
+})
+
+this.setState({
+filteredArticles: filteredResults
+})
+}
+
+      
+// onSubmit = (evt) => {
+//   evt.preventDefault()
+//   // fetch(
+//   //   "https://hn.algolia.com/api/v1/search_by_date?tags=story&hitsPerPage=25"
+//   // )
+//   //   .then((response) => response.json())
+//   //   .then((data) =>
+//   //     this.setState({
+//   //       articles: data.hits,
+//   //     })
+//   //   );
+
+//   this.setState({
+//     filteredArticles: this.filteredResults,
+//   })
+// }
 
 
 // handleUpdate = (evt) =>{
@@ -68,9 +92,9 @@ onSubmit = (evt) => {
     return (
       <div className="App">
         <h1 className="title">Hacker News!</h1>
-        <form onSubmit={this.onSubmit}>
-          <button>Submit</button>
-          <input type='text'name='searchInput' id='searchInput' placeholder='Search by Author/Title/Date' onChange={this.handleChange}></input>
+        <form onSubmit={this.handleSubmit}>
+          <input type='submit' value='Search'/>
+          <input type='text'name='searchInput' id='searchInput' placeholder='Search by Author/Title/Date' onChange={this.handleChange}/>
         </form>
         <div>
           <ul>
