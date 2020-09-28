@@ -25,9 +25,9 @@ componentDidMount() {
       );
     }
 
-// componentDidUpdate() {
-//   console.log(this.state.filteredArticles);
-// }
+componentDidUpdate() {
+  console.log(this.state.articles);
+}
 
 handleChange = (evt) => {
 this.setState({
@@ -48,7 +48,7 @@ handleSubmit = (evt) => {
   // const filteredResults = this.state.articles.filter(article => article.title.toLowerCase()===this.state.text.toLowerCase())
 
 const filteredResults = this.state.articles.filter(article => {
-  return article.title.toLowerCase().includes(this.state.text.toLowerCase())
+  return article.title.toLowerCase().includes(this.state.text.toLowerCase()) || article.author.toLowerCase().includes(this.state.text.toLowerCase()) || article.created_at.toLowerCase().includes(this.state.text.toLowerCase())
 })
 
 this.setState({
