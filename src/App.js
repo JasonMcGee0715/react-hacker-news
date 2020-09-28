@@ -25,9 +25,9 @@ componentDidMount() {
       );
     }
 
-componentDidUpdate() {
-  console.log(this.state.filteredArticles);
-}
+// componentDidUpdate() {
+//   console.log(this.state.filteredArticles);
+// }
 
 handleChange = (evt) => {
 this.setState({
