@@ -47,9 +47,6 @@ handleSubmit = (evt) => {
 //   console.log('Clicked')
   // const filteredResults = this.state.articles.filter(article => article.title.toLowerCase()===this.state.text.toLowerCase())
 
-// this.setState({
-//   filteredArticles: filteredResults,
-// })
 const filteredResults = this.state.articles.filter(article => {
   return article.title.toLowerCase().includes(this.state.text.toLowerCase())
 })
